@@ -19,7 +19,6 @@ namespace Projektarbete.Controllers
             return View(e);
         }
 
-        [HttpGet]
         public IActionResult GetEvents()
         {
             try

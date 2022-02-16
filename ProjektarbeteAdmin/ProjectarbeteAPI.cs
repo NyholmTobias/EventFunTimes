@@ -8,7 +8,7 @@ namespace ProjektarbeteAdmin
     public class ProjectarbeteAPI
     {
         private readonly HttpClient httpClient = new();
-        private readonly string Url = "http://localhost:3000/Event/";
+        private readonly string Url = "https://localhost:3000/Event/";
         public async Task<Event?> GetEvent(Guid? id)
         {      
             var res = await httpClient.GetAsync($"{Url}GetEvent/{id}");

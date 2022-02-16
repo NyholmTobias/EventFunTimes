@@ -32,8 +32,6 @@ namespace Projektarbete.Services
                      e.OpeningHours.Any(oh => oh.Weekday == criterias.Time.DayOfWeek.ToString() &&
                      oh.OpeningHour - 1 < criterias.Time.Hour &&
                      oh.ClosingHour - 1 > criterias.Time.Hour));
-
-                
             }
 
             if (response != null) return response;

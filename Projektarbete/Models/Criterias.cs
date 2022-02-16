@@ -24,9 +24,9 @@ namespace Projektarbete.Models
         {
             if (weather.Temperature < 5 && weather.WindSpeed < 10 || weather.WindSpeed > 15)
             {
-                return true;
+                return false;
             }
-            else return false;
+            else return true;
         }
     }
 }
