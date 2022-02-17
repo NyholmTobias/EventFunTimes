@@ -4,6 +4,15 @@ namespace ProjektarbeteAdmin
 {
     public static class Menu
     {
+        private static IProjectarbeteApi _api;
+
+        //This method makes sure that i can dependency inject eventhough this is a static class. 
+        //https://www.thecodehubs.com/use-dependency-injection-in-static-class-with-net-core/
+        public static void MenuConfigure(IProjectarbeteApi api)
+        {
+            _api = api;
+        }
+
         public static void StartMenu()
         {
             Console.Clear();
@@ -16,9 +25,8 @@ namespace ProjektarbeteAdmin
             HandleChoice(Console.ReadLine());
         }
 
-        private async static void CreateEventMenu()
+        private static async void CreateEventMenu()
         {
-            var api = new ProjectarbeteAPI();
             List<string> weekdays = new() 
             { 
                 "Monday",
@@ -74,8 +82,13 @@ namespace ProjektarbeteAdmin
                     OpeningHours = daysOpen,
                     Link = link
                 };
+                foreach (var oh in newEvent.OpeningHours)
+                {
+                    oh.Id = Guid.NewGuid();
+                    oh.Event = newEvent;
+                }
                 
-                var result = await api.CreateEvent(newEvent);
+                var result = await _api.CreateEvent(newEvent);
 
                 if (result)
                 {
@@ -98,16 +111,15 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private async static void DeleteEventMenu()
+        private static async void DeleteEventMenu()
         {
-            var api = new ProjectarbeteAPI();
             try
             {
                 Console.Clear();
                 Console.WriteLine("Delete Event!");
                 Console.Write("Enter the id of the event you want to delete: ");
                 var id = Guid.Parse(Console.ReadLine());
-                var result = await api.DeleteEvent(id);
+                var result = await _api.DeleteEvent(id);
 
                 if(result)
                 {
@@ -130,15 +142,14 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private async static void UpdateEventMenu()
+        private static async void UpdateEventMenu()
         {
-            var api = new ProjectarbeteAPI();
             try
             {
                 Console.Clear();
                 Console.WriteLine("Update Event!");
                 Console.WriteLine("Enter the id of the event you want to update.");
-                var eventToUpdate = api.GetEvent(Guid.Parse(Console.ReadLine()));
+                var eventToUpdate = _api.GetEvent(Guid.Parse(Console.ReadLine()));
                 if(eventToUpdate != null)
                 {
                     List<string> weekdays = new()
@@ -171,6 +182,7 @@ namespace ProjektarbeteAdmin
 
                             daysOpen.Add(new OpeningHours
                             {
+                                Event = eventToUpdate.Result,
                                 Weekday = weekday,
                                 OpeningHour = int.Parse(openHourString),
                                 ClosingHour = int.Parse(closeHourString)
@@ -189,7 +201,7 @@ namespace ProjektarbeteAdmin
                         eventToUpdate.Result.OpeningHours.Add(oh);
                     }
 
-                    var result = await api.UpdateEvent(eventToUpdate.Result);
+                    var result = await _api.UpdateEvent(eventToUpdate.Result);
 
                     if (result)
                     {
@@ -213,9 +225,8 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private async static void GetEventMenu()
+        private static async void GetEventMenu()
         {
-            var api = new ProjectarbeteAPI();
             try
             {
                 Console.Clear();
@@ -223,7 +234,7 @@ namespace ProjektarbeteAdmin
                 Console.Write("Enter the id of the event you want to get: ");
                 var id = Guid.Parse(Console.ReadLine());
 
-                var e = await api.GetEvent(id);
+                var e = await _api.GetEvent(id);
 
                 Console.Clear();
                 if (e != null)
@@ -244,12 +255,11 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private async static void GetAllEventsMenu()
+        private static async void GetAllEventsMenu()
         {
-            var api = new ProjectarbeteAPI();
             try
             {
-                var events = await api.GetAllEvents();
+                var events = await _api.GetAllEvents();
                 Console.Clear();
 
                 if (events != null || events != Enumerable.Empty<Event>())

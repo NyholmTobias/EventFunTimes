@@ -6,7 +6,7 @@ namespace Projektarbete.Services
 {
     public class EventService : IEventService
     {
-        private readonly ApplicationDbContext _db;
+        private readonly new ApplicationDbContext _db;
 
         public EventService(ApplicationDbContext db)
         {

@@ -1,4 +1,3 @@
-﻿
-using ProjektarbeteAdmin;
+﻿using ProjektarbeteAdmin;
 
-Menu.StartMenu();
+menu.StartMenu();
