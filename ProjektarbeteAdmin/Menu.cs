@@ -2,18 +2,16 @@
 
 namespace ProjektarbeteAdmin
 {
-    public static class Menu
+    public class Menu : IMenu
     {
-        private static IProjectarbeteApi _api;
+        private readonly IProjectarbeteApi _api;
 
-        //This method makes sure that i can dependency inject eventhough this is a static class. 
-        //https://www.thecodehubs.com/use-dependency-injection-in-static-class-with-net-core/
-        public static void MenuConfigure(IProjectarbeteApi api)
+        public Menu(IProjectarbeteApi api)
         {
             _api = api;
         }
 
-        public static void StartMenu()
+        public void StartMenu()
         {
             Console.Clear();
             Console.WriteLine("Admin");
@@ -25,7 +23,7 @@ namespace ProjektarbeteAdmin
             HandleChoice(Console.ReadLine());
         }
 
-        private static async void CreateEventMenu()
+        private async void CreateEventMenu()
         {
             List<string> weekdays = new() 
             { 
@@ -111,7 +109,7 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private static async void DeleteEventMenu()
+        private async void DeleteEventMenu()
         {
             try
             {
@@ -142,7 +140,7 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private static async void UpdateEventMenu()
+        private async void UpdateEventMenu()
         {
             try
             {
@@ -225,7 +223,7 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private static async void GetEventMenu()
+        private async void GetEventMenu()
         {
             try
             {
@@ -255,7 +253,7 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private static async void GetAllEventsMenu()
+        private async void GetAllEventsMenu()
         {
             try
             {
@@ -273,7 +271,7 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private static void HandleChoice(string? choice)
+        private void HandleChoice(string? choice)
         {
             switch (choice)
             {
@@ -298,14 +296,14 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private static void WrongChoise()
+        private void WrongChoise()
         {
             Console.WriteLine();
             Console.WriteLine("Enter one of the numbers.");
             HandleChoice(Console.ReadLine());
         }
 
-        private static void SomethingWentWrong()
+        private void SomethingWentWrong()
         {
             Console.Clear();
             Console.WriteLine("Something went wrong. Press any key to get to the main menu.");
@@ -313,7 +311,7 @@ namespace ProjektarbeteAdmin
             StartMenu();
         }
 
-        private static void PrettyPrintOneEvent(Event e, bool endPrint)
+        private void PrettyPrintOneEvent(Event e, bool endPrint)
         {
             Console.WriteLine($"Event id: {e.Id}");
             Console.WriteLine($"Inside event: {e.Inside}");
@@ -334,7 +332,7 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private static void PrettyPrintManyEvents(List<Event> events)
+        private void PrettyPrintManyEvents(List<Event> events)
         {
             events.ForEach(e => PrettyPrintOneEvent(e, false));
 

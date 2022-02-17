@@ -8,5 +8,6 @@ namespace ProjektarbeteAdmin
 {
     public interface IMenu
     {
+        void StartMenu();
     }
 }
