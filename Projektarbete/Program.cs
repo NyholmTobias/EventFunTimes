@@ -1,21 +1,13 @@
-using Projektarbete.Data;
-using Microsoft.EntityFrameworkCore;
-using Projektarbete.Services;
-using Projektarbete.Services.Interfaces;
+using EventFunTimesUI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
-builder.Services.AddScoped<IEventService, EventService>();
-builder.Services.AddScoped<IWeatherService, WeatherService>();
+builder.Services.AddHttpClient<IUIEventService, UIEventService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:5000");
+});
 
 var app = builder.Build();
 

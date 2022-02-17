@@ -1,20 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EventFunTimesUI.Services;
+using Microsoft.AspNetCore.Mvc;
 using Projektarbete.Models;
-using Projektarbete.Services;
-using Projektarbete.Services.Interfaces;
 
 namespace Projektarbete.Controllers
 {
     public class EventController : Controller
     {
-        private readonly IEventService _eventService;
+        private readonly IUIEventService _uIEventService;
 
-        public EventController(IEventService eventService)
+        public EventController(UIEventService eventService)
         {
-            _eventService = eventService;
+            _uIEventService = eventService;
         }
 
-        public IActionResult Show(Event e)
+        public IActionResult Show(EventResponse e)
         {
             return View(e);
         }
@@ -23,45 +22,18 @@ namespace Projektarbete.Controllers
         {
             try
             {
-                return View(_eventService.GetEvents(new Criterias(new WeatherService())));
+                var events = _uIEventService.GetEvents();
+                if(events.IsFaulted || events.IsCanceled || events.Result == Enumerable.Empty<EventResponse>())
+                {
+                    return BadRequest();
+                }
+
+                return View(events);
             }
             catch
             {
                 return NotFound();
             }
-        }
-
-        [HttpGet]
-        public IEnumerable<Event> GetAllEvents()
-        {
-            return _eventService.GetAllEvents();
-        }
-
-        [HttpGet]
-        public Event GetEvent(Guid id)
-        {
-            return _eventService.GetEvent(id);
-        }
-        
-        [HttpDelete]
-        [ValidateAntiForgeryToken]
-        public bool DeleteEvent(Guid id)
-        {
-            return _eventService.DeleteEvent(id);
-        }
-
-        [HttpPut]
-        [ValidateAntiForgeryToken]
-        public bool UpdateEvent(Event e)
-        {
-            return _eventService.UpdateEvent(e);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public bool CreateEvent(Event e)
-        {
-            return _eventService.CreateEvent(e);
         }
     }
 }

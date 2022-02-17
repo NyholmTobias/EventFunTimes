@@ -1,19 +1,26 @@
-﻿using Projektarbete.Data;
+﻿using EventFunTimesAPI.Services.Interfaces;
+using Projektarbete.Data;
 using Projektarbete.Models;
-using Projektarbete.Services.Interfaces;
 
 namespace Projektarbete.Services
 {
-    public class EventService : IEventService
+    public class EventService : IEventHostService
     {
         private readonly new ApplicationDbContext _db;
+        private readonly IWeatherService _weatherService;
 
-        public EventService(ApplicationDbContext db)
+        public EventService(ApplicationDbContext db, IWeatherService weatherService)
         {
             _db = db;
+            _weatherService = weatherService;
         }
 
-        public IEnumerable<Event> GetEvents(Criterias criterias)
+        public async Task<IEnumerable<Event>> GetEvents()
+        {
+            return GetEvents(new Criterias(_weatherService));
+        }
+
+        private IEnumerable<Event> GetEvents(Criterias criterias)
         {
             IEnumerable<Event>? response = null;
 

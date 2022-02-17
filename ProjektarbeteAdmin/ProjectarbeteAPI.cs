@@ -1,6 +1,4 @@
 ﻿using Projektarbete.Models;
-using Projektarbete.Services;
-using Projektarbete.Services.Interfaces;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
@@ -10,13 +8,7 @@ namespace ProjektarbeteAdmin
     public class ProjectarbeteAPI : IProjectarbeteApi
     {
         private readonly HttpClient httpClient = new();
-        private readonly string Url = "https://localhost:3000/Event/";
-        private readonly IEventService _eventService;
-
-        public ProjectarbeteAPI(IEventService eventService)
-        {
-            _eventService = eventService;
-        }
+        private readonly string Url = "https://localhost:3000/api/v1/EventHost/";
 
         public async Task<Event?> GetEvent(Guid? id)
         {      
@@ -49,13 +41,10 @@ namespace ProjektarbeteAdmin
 
         public async Task<bool> CreateEvent(Event e)
         {
-            //var eventJson = new StringContent(JsonSerializer.Serialize(e), Encoding.UTF8, "application/json");
-            //var res = await httpClient.PostAsync($"{Url}CreateEvent", eventJson);
+            var eventJson = new StringContent(JsonSerializer.Serialize(e), Encoding.UTF8, "application/json");
+            var res = await httpClient.PostAsync($"{Url}CreateEvent", eventJson);
 
-            //return res.IsSuccessStatusCode && await res.Content.ReadFromJsonAsync<bool>();
-
-           
-            return _eventService.CreateEvent(e);
+            return res.IsSuccessStatusCode && await res.Content.ReadFromJsonAsync<bool>();
         }
     }
 }

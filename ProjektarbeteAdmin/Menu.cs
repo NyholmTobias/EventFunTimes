@@ -4,11 +4,12 @@ namespace ProjektarbeteAdmin
 {
     public class Menu : IMenu
     {
-        private readonly IProjectarbeteApi _api;
+        private readonly IProjectarbeteApi _api = new ProjectarbeteAPI();
+        private static readonly IMenu _menu = new Menu();
 
-        public Menu(IProjectarbeteApi api)
+        public static IMenu GetInstance()
         {
-            _api = api;
+            return _menu;
         }
 
         public void StartMenu()

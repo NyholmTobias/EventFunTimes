@@ -1,10 +1,9 @@
 ﻿using Projektarbete.Models;
 
-namespace Projektarbete.Services.Interfaces
+namespace EventFunTimesAPI.Services.Interfaces
 {
-    public interface IEventService
+    public interface IEventHostService
     {
-        IEnumerable<Event> GetEvents(Criterias criterias);
         Event GetEvent(Guid? id);
         bool DeleteEvent(Guid? id);
         bool UpdateEvent(Event eventToUpdate);
