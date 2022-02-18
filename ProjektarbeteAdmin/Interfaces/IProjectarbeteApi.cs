@@ -1,18 +1,15 @@
-﻿using Projektarbete.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EventFunTimesAPI.Models;
 
-namespace ProjektarbeteAdmin
+namespace ProjektarbeteAdmin.Interfaces
 {
     public interface IProjectarbeteApi
     {
         Task<bool> CreateEvent(Event newEvent);
         Task<bool> DeleteEvent(Guid? id);
         Task<Event?> GetEvent(Guid? guid);
-        Task<bool> UpdateEvent(Event result);
+        Task<bool> UpdateEvent(Event eventToUpdate);
         Task<IEnumerable<Event?>?> GetAllEvents();
+        Task<bool> CreateOpeningHours(List<OpeningHours> newOpeningHours);
+        Task<bool> UpdateOpeningHours(List<OpeningHours> OpeningHoursToUpdate);
     }
 }

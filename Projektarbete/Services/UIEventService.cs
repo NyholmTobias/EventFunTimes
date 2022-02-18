@@ -1,4 +1,5 @@
-﻿using Projektarbete.Models;
+﻿using EventFunTimesUI.Models;
+using EventFunTimesUI.Services.Interfaces;
 
 namespace EventFunTimesUI.Services
 {
@@ -13,7 +14,7 @@ namespace EventFunTimesUI.Services
 
         public async Task<IEnumerable<EventResponse>> GetEvents()
         {
-            var response = await _httpClient.GetAsync("api/v1/Event");
+            var response = await _httpClient.GetAsync("api/v1/EventHost/GetCandidates");
 
             if (response.IsSuccessStatusCode)
             {

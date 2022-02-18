@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Projektarbete.Models
+namespace EventFunTimesUI.Models
 {
     public class OpeningHoursResponse
     {
@@ -9,7 +9,7 @@ namespace Projektarbete.Models
         [Required]
         public string? Weekday { get; set; }
 
-        [Range(0,23), Required]
+        [Range(0, 23), Required]
         public int OpeningHour { get; set; }
 
         [Range(0, 23), Required]

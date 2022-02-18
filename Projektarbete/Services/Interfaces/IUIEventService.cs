@@ -1,6 +1,6 @@
-﻿using Projektarbete.Models;
+﻿using EventFunTimesUI.Models;
 
-namespace EventFunTimesUI.Services
+namespace EventFunTimesUI.Services.Interfaces
 {
     public interface IUIEventService
     {

@@ -1,4 +1,5 @@
-﻿using Projektarbete.Models;
+﻿using EventFunTimesAPI.Models;
+using ProjektarbeteAdmin.Interfaces;
 
 namespace ProjektarbeteAdmin
 {
@@ -37,7 +38,7 @@ namespace ProjektarbeteAdmin
                 "Sunday" 
             };
 
-            string? insideOrOutsideString, openHourString, closeHourString, link, open;
+            string? insideOrOutsideString, openHourString, closeHourString, link, open, title;
             bool isEventInside, isEventOutside;
             List<OpeningHours> daysOpen = new();
 
@@ -45,6 +46,8 @@ namespace ProjektarbeteAdmin
             {
                 Console.Clear();
                 Console.WriteLine("Create Event!");
+                Console.Write("Title: ");
+                title = Console.ReadLine();
                 Console.Write("Inside event y/n: ");
                 insideOrOutsideString = Console.ReadLine();
                 foreach (var weekday in weekdays)
@@ -76,20 +79,22 @@ namespace ProjektarbeteAdmin
                 var newEvent = new Event
                 {
                     Id = Guid.NewGuid(),
+                    Title = title,
                     Inside = isEventInside,
                     Outside = isEventOutside,
-                    OpeningHours = daysOpen,
+                    OpeningHours = new List<OpeningHours>(),
                     Link = link
                 };
-                foreach (var oh in newEvent.OpeningHours)
+                foreach (var oh in daysOpen)
                 {
                     oh.Id = Guid.NewGuid();
                     oh.Event = newEvent;
                 }
-                
-                var result = await _api.CreateEvent(newEvent);
 
-                if (result)
+                var result1 = await _api.CreateEvent(newEvent);
+                var result2 = await _api.CreateOpeningHours(daysOpen);
+
+                if (result1 && result2)
                 {
                     Console.Clear();
                     Console.WriteLine($"New event added with id: {newEvent.Id}. Press any key to get to the main menu.");
@@ -200,9 +205,10 @@ namespace ProjektarbeteAdmin
                         eventToUpdate.Result.OpeningHours.Add(oh);
                     }
 
-                    var result = await _api.UpdateEvent(eventToUpdate.Result);
+                    var result1 = await _api.UpdateEvent(eventToUpdate.Result);
+                    var result2 = await _api.UpdateOpeningHours(daysOpen);
 
-                    if (result)
+                    if (result1 && result2)
                     {
                         Console.Clear();
                         Console.WriteLine($"Event with id {eventToUpdate.Result.Id} has been updated. Press any key to get to the main menu.");

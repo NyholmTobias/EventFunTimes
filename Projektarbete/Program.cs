@@ -1,4 +1,5 @@
 using EventFunTimesUI.Services;
+using EventFunTimesUI.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +7,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient<IUIEventService, UIEventService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:5000");
+    client.BaseAddress = new Uri("https://localhost:5001/");
 });
 
 var app = builder.Build();

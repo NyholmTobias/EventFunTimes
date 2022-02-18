@@ -1,4 +1,4 @@
-﻿namespace Projektarbete.Models
+﻿namespace EventFunTimesAPI.Models
 {
     public class Weather
     {

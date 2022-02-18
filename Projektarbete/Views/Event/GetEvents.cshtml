@@ -1,8 +1,19 @@
-﻿@model IEnumerable<Projektarbete.Models.EventResponse>
+﻿@model IEnumerable<EventFunTimesUI.Models.EventResponse>
 
 <div>  
-    @foreach(var Event in Model)
+    @if(Model != null & Model.Count() != 0)
     {
-        <h1>@Event</h1>
+        @foreach(var Event in Model)
+        {
+            <div> 
+                <h1>@Event.Title</h1>
+                <a>@Event.Link</a>
+            </div> 
+        }
     }
+    else
+    {
+        <h1>There are no suitable events available right now :( Try again later!</h1>
+    }
+    
 </div>

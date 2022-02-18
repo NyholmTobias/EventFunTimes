@@ -1,8 +1,8 @@
-﻿using EventFunTimesAPI.Services.Interfaces;
+﻿using EventFunTimesAPI.Models;
+using EventFunTimesAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Projektarbete.Models;
 
-namespace Projektarbete.Controllers
+namespace EventFunTimesAPI.Controllers
 {
     [Route("api/v1/EventHost")]
     [ApiController]
@@ -18,34 +18,43 @@ namespace Projektarbete.Controllers
         [HttpGet]
         public IEnumerable<Event> GetAllEvents()
         {
-            return _eventService.GetAllEvents();
+            var response = _eventService.GetAllEvents();
+            return response ?? Enumerable.Empty<Event>();
         }
 
-        [HttpGet]
-        public Event GetEvent(Guid id)
+        [HttpGet("GetCandidates")]
+        public IEnumerable<Event> GetEvents()
         {
-            return _eventService.GetEvent(id);
+            var response = _eventService.GetEvents();
+            return response ?? Enumerable.Empty<Event>();
         }
-        
-        [HttpDelete]
-        [ValidateAntiForgeryToken]
-        public bool DeleteEvent(Guid id)
+
+        [HttpGet("{eventId}")]
+        public Event GetEvent([FromRoute] Guid id)
         {
-            return _eventService.DeleteEvent(id);
+            var response = _eventService.GetEvent(id);
+            return response ?? new Event();
+        }
+
+        [HttpDelete("{eventId}")]
+        public bool DeleteEvent([FromRoute] Guid id)
+        {
+            var response = _eventService.DeleteEvent(id);
+            return response;
         }
 
         [HttpPut]
-        [ValidateAntiForgeryToken]
         public bool UpdateEvent(Event e)
         {
-            return _eventService.UpdateEvent(e);
+            var response = _eventService.UpdateEvent(e);
+            return response;
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public bool CreateEvent(Event e)
         {
-            return _eventService.CreateEvent(e);
+            var response = _eventService.CreateEvent(e);
+            return response;
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using Projektarbete.Models;
+﻿using EventFunTimesAPI.Models;
 
-namespace Projektarbete.Services
+namespace EventFunTimesAPI.Services.Interfaces
 {
     public interface IWeatherService
     {

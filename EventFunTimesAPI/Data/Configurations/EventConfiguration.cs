@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EventFunTimesAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Projektarbete.Models;
 
-namespace Projektarbete.Data.Configurations
+namespace EventFunTimesAPI.Data.Configurations
 {
     public class EventConfiguration : IEntityTypeConfiguration<Event>
     {

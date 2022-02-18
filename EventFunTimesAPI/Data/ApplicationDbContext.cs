@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Projektarbete.Models;
+﻿using EventFunTimesAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Projektarbete.Data
+namespace EventFunTimesAPI.Data
 {
     public class ApplicationDbContext : DbContext
     {

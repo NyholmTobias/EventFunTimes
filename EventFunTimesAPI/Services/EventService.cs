@@ -1,8 +1,8 @@
-﻿using EventFunTimesAPI.Services.Interfaces;
-using Projektarbete.Data;
-using Projektarbete.Models;
+﻿using EventFunTimesAPI.Data;
+using EventFunTimesAPI.Models;
+using EventFunTimesAPI.Services.Interfaces;
 
-namespace Projektarbete.Services
+namespace EventFunTimesAPI.Services
 {
     public class EventService : IEventHostService
     {
@@ -15,7 +15,7 @@ namespace Projektarbete.Services
             _weatherService = weatherService;
         }
 
-        public async Task<IEnumerable<Event>> GetEvents()
+        public IEnumerable<Event> GetEvents()
         {
             return GetEvents(new Criterias(_weatherService));
         }
@@ -29,8 +29,8 @@ namespace Projektarbete.Services
                 response = _db.Events.Where(e =>
                      e.Inside == true &&
                      e.OpeningHours.Any(oh => oh.Weekday == criterias.Time.DayOfWeek.ToString() &&
-                     oh.OpeningHour -1 < criterias.Time.Hour &&
-                     oh.ClosingHour -1 > criterias.Time.Hour));
+                     oh.OpeningHour - 1 < criterias.Time.Hour &&
+                     oh.ClosingHour - 1 > criterias.Time.Hour));
             }
             else if (!criterias.InsideEvent)
             {
@@ -76,7 +76,7 @@ namespace Projektarbete.Services
         {
             try
             {
-                _db.Update(eventToUpdate);
+                _db.Events.Update(eventToUpdate);
                 _db.SaveChanges();
                 return true;
             }
@@ -90,7 +90,7 @@ namespace Projektarbete.Services
         {
             try
             {
-                _db.Add(newEvent);
+                _db.Events.Add(newEvent);
                 _db.SaveChanges();
                 return true;
             }

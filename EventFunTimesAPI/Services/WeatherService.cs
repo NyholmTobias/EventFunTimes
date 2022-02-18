@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
-using Projektarbete.Models;
+﻿using EventFunTimesAPI.Models;
+using EventFunTimesAPI.Services.Interfaces;
+using Newtonsoft.Json;
 using System.Net;
 
-namespace Projektarbete.Services
+namespace EventFunTimesAPI.Services
 {
     public class WeatherService : IWeatherService
     {

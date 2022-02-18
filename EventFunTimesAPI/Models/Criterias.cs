@@ -1,6 +1,6 @@
-﻿using Projektarbete.Services;
+﻿using EventFunTimesAPI.Services.Interfaces;
 
-namespace Projektarbete.Models
+namespace EventFunTimesAPI.Models
 {
     public class Criterias
     {
@@ -22,11 +22,11 @@ namespace Projektarbete.Models
         /// <returns>true=inside, false=outside</returns>
         private static bool SetEventType(Weather weather)
         {
-            if (weather.Temperature < 5 && weather.WindSpeed < 10 || weather.WindSpeed > 15)
+            if (weather.Temperature < 5 && weather.WindSpeed > 5 || weather.WindSpeed > 10)
             {
-                return false;
+                return true;
             }
-            else return true;
+            else return false;
         }
     }
 }
