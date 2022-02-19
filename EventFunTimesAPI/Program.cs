@@ -25,6 +25,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IEventHostService, EventService>();
 builder.Services.AddScoped<IWeatherService, WeatherService>();
 builder.Services.AddScoped<IOpeninghoursService, OpeninghoursService>();
+builder.Services.AddScoped<ISeedService, SeedService>();
 
 var app = builder.Build();
 

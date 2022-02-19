@@ -25,7 +25,7 @@ namespace ProjektarbeteAdmin
             HandleChoice(Console.ReadLine());
         }
 
-        private async void CreateEventMenu()
+        private void CreateEventMenu()
         {
             List<string> weekdays = new() 
             { 
@@ -64,6 +64,7 @@ namespace ProjektarbeteAdmin
 
                         daysOpen.Add(new OpeningHours
                         {
+                            Id = Guid.NewGuid(),
                             Weekday = weekday,
                             OpeningHour = int.Parse(openHourString),
                             ClosingHour = int.Parse(closeHourString),
@@ -82,19 +83,13 @@ namespace ProjektarbeteAdmin
                     Title = title,
                     Inside = isEventInside,
                     Outside = isEventOutside,
-                    OpeningHours = new List<OpeningHours>(),
+                    OpeningHours = daysOpen.ToArray(),
                     Link = link
                 };
-                foreach (var oh in daysOpen)
-                {
-                    oh.Id = Guid.NewGuid();
-                    oh.Event = newEvent;
-                }
 
-                var result1 = await _api.CreateEvent(newEvent);
-                var result2 = await _api.CreateOpeningHours(daysOpen);
+                var result = _api.CreateEvent(newEvent).Result;
 
-                if (result1 && result2)
+                if (result)
                 {
                     Console.Clear();
                     Console.WriteLine($"New event added with id: {newEvent.Id}. Press any key to get to the main menu.");
@@ -115,7 +110,7 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private async void DeleteEventMenu()
+        private void DeleteEventMenu()
         {
             try
             {
@@ -123,7 +118,7 @@ namespace ProjektarbeteAdmin
                 Console.WriteLine("Delete Event!");
                 Console.Write("Enter the id of the event you want to delete: ");
                 var id = Guid.Parse(Console.ReadLine());
-                var result = await _api.DeleteEvent(id);
+                var result = _api.DeleteEvent(id).Result;
 
                 if(result)
                 {
@@ -146,7 +141,7 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private async void UpdateEventMenu()
+        private void UpdateEventMenu()
         {
             try
             {
@@ -205,10 +200,9 @@ namespace ProjektarbeteAdmin
                         eventToUpdate.Result.OpeningHours.Add(oh);
                     }
 
-                    var result1 = await _api.UpdateEvent(eventToUpdate.Result);
-                    var result2 = await _api.UpdateOpeningHours(daysOpen);
+                    var result = _api.UpdateEvent(eventToUpdate.Result).Result;
 
-                    if (result1 && result2)
+                    if (result)
                     {
                         Console.Clear();
                         Console.WriteLine($"Event with id {eventToUpdate.Result.Id} has been updated. Press any key to get to the main menu.");
@@ -230,7 +224,7 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private async void GetEventMenu()
+        private void GetEventMenu()
         {
             try
             {
@@ -239,7 +233,7 @@ namespace ProjektarbeteAdmin
                 Console.Write("Enter the id of the event you want to get: ");
                 var id = Guid.Parse(Console.ReadLine());
 
-                var e = await _api.GetEvent(id);
+                var e = _api.GetEvent(id).Result;
 
                 Console.Clear();
                 if (e != null)
@@ -260,11 +254,11 @@ namespace ProjektarbeteAdmin
             }
         }
 
-        private async void GetAllEventsMenu()
+        private void GetAllEventsMenu()
         {
             try
             {
-                var events = await _api.GetAllEvents();
+                var events = _api.GetAllEvents().Result;
                 Console.Clear();
 
                 if (events != null || events != Enumerable.Empty<Event>())
@@ -321,6 +315,7 @@ namespace ProjektarbeteAdmin
         private void PrettyPrintOneEvent(Event e, bool endPrint)
         {
             Console.WriteLine($"Event id: {e.Id}");
+            Console.WriteLine($"Title: {e.Title}");
             Console.WriteLine($"Inside event: {e.Inside}");
             Console.WriteLine($"Outside event: {e.Outside}");
             Console.WriteLine($"OpeningHours: ");

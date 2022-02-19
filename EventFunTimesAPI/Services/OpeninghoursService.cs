@@ -13,6 +13,11 @@ namespace EventFunTimesAPI.Services
             _db = db;
         }
 
+        /// <summary>
+        /// Creates new OpeningHours 
+        /// </summary>
+        /// <param name="newOpeninghour"></param>
+        /// <returns>true or false</returns>
         public bool CreateOpeningHours(List<OpeningHours> newOpeninghour)
         {
             try
@@ -30,6 +35,11 @@ namespace EventFunTimesAPI.Services
             }
         }
 
+        /// <summary>
+        /// Updates OpeningHours 
+        /// </summary>
+        /// <param name="newOpeninghour"></param>
+        /// <returns>true or false</returns>
         public bool UpdateOpeningHours(List<OpeningHours> openinghoursToUpdate)
         {
             try

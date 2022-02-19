@@ -12,6 +12,10 @@ namespace EventFunTimesUI.Services
             _httpClient = httpClient;
         }
 
+        /// <summary>
+        /// Calls the API and gets events that match the criterias that are generated right now.
+        /// </summary>
+        /// <returns>List of Event that pass criterias.</returns>
         public async Task<IEnumerable<EventResponse>> GetEvents()
         {
             var response = await _httpClient.GetAsync("api/v1/EventHost/GetCandidates");

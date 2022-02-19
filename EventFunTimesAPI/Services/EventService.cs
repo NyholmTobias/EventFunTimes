@@ -1,6 +1,7 @@
 ﻿using EventFunTimesAPI.Data;
 using EventFunTimesAPI.Models;
 using EventFunTimesAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventFunTimesAPI.Services
 {
@@ -15,6 +16,10 @@ namespace EventFunTimesAPI.Services
             _weatherService = weatherService;
         }
 
+        /// <summary>
+        /// Gets events based in the criterias that are generated automaticaly. 
+        /// </summary>
+        /// <returns>A list of events that pass the criterias and openinghour logic.</returns>
         public IEnumerable<Event> GetEvents()
         {
             return GetEvents(new Criterias(_weatherService));
@@ -46,6 +51,11 @@ namespace EventFunTimesAPI.Services
             else return Enumerable.Empty<Event>();
         }
 
+        /// <summary>
+        /// Get one event by id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Event</returns>
         public Event GetEvent(Guid? id)
         {
             try
@@ -58,6 +68,11 @@ namespace EventFunTimesAPI.Services
             }
         }
 
+        /// <summary>
+        /// Finds and deletes event with the passed id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>true or false</returns>
         public bool DeleteEvent(Guid? id)
         {
             try
@@ -72,6 +87,11 @@ namespace EventFunTimesAPI.Services
             }
         }
 
+        /// <summary>
+        /// Finds and update event.
+        /// </summary>
+        /// <param name="eventToUpdate"></param>
+        /// <returns>true or false</returns>
         public bool UpdateEvent(Event? eventToUpdate)
         {
             try
@@ -86,6 +106,11 @@ namespace EventFunTimesAPI.Services
             }
         }
 
+        /// <summary>
+        /// Creates a new event and adds it to the db.
+        /// </summary>
+        /// <param name="newEvent"></param>
+        /// <returns>true or false</returns>
         public bool CreateEvent(Event newEvent)
         {
             try
@@ -100,11 +125,17 @@ namespace EventFunTimesAPI.Services
             }
         }
 
+        /// <summary>
+        /// Gets all the events from the Events table.
+        /// </summary>
+        /// <returns>List of event</returns>
         public IEnumerable<Event> GetAllEvents()
         {
             try
             {
-                return _db.Events;
+                return _db.Events
+                    .Include(e => e.OpeningHours)
+                    .ToList();
             }
             catch
             {

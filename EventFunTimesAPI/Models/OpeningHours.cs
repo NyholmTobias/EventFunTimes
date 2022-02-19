@@ -9,10 +9,10 @@ namespace EventFunTimesAPI.Models
         [Required]
         public string? Weekday { get; set; }
 
-        [Range(0, 23), Required]
+        [Range(0, 24), Required]
         public int OpeningHour { get; set; }
 
-        [Range(0, 23), Required]
+        [Range(0, 24), Required]
         public int ClosingHour { get; set; }
         public Event? Event { get; set; }
     }

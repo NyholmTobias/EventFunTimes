@@ -22,7 +22,7 @@ namespace EventFunTimesAPI.Models
         /// <returns>true=inside, false=outside</returns>
         private static bool SetEventType(Weather weather)
         {
-            if (weather.Temperature < 5 && weather.WindSpeed > 5 || weather.WindSpeed > 10)
+            if (weather.Temperature < 10 || weather.WindSpeed > 15)
             {
                 return true;
             }
