@@ -1,4 +1,22 @@
 ﻿@using EventFunTimesUI
-<div>  
-    <a asp-controller="Event" asp-action="GetEvents" class="btn-primary">Find event.</a>
+<div style="margin-top:20px;">
+    <a asp-controller="Event" asp-action="GetEvents" class="eventButton">Click me for things to do!</a>
 </div>
+
+<style>
+    .eventButton 
+    {
+        text-decoration: none;
+        border: 1px solid grey;
+        box-shadow: 2px 2px lightgrey;
+        padding: 10px;
+        border-radius: 5px;
+        color: black;
+    }
+    .eventButton:hover
+    {
+        background-color: lightgrey;
+        color: black;
+
+    }
+</style>
